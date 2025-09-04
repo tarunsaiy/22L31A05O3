@@ -1,79 +1,69 @@
-Developed a microservice of url shortener with 
-Mandatory Logging Integration
+#  URL Shortener Microservice  
 
-MUST use the custom Logging Middleware (not console.log / default loggers).
+A microservice that provides robust HTTP URL shortening functionality with logging, validation, redirection, and analytics.  
 
-Log requests, responses, errors, and business events (like creation, redirect).
+---
 
-Microservice Architecture
+## Features & Requirements  
 
-A single microservice that exposes specified RESTful API endpoints.
+### 1. Mandatory Logging Integration
+- Uses a **custom Logging Middleware** (not `console.log` or built-in loggers).  
+- Logs:  
+  - Requests  
+  - Responses  
+  - Errors  
+  - Business events (creation of short URLs, redirects, etc.)  
 
-Authentication
+### 2. Microservice Architecture
+- A single microservice exposing RESTful API endpoints.  
 
-Assume APIs are pre-authorized (no login/signup needed).
+### 3. Authentication
+- APIs are **pre-authorized** (no login/registration required).  
 
-Short Link Uniqueness
+### 4. Short Link Uniqueness
+- Each shortcode is **globally unique**.  
 
-Every shortcode must be globally unique.
+### 5. Default Validity
+- If no validity provided → defaults to **30 minutes**.  
+- Validity must always be an **integer (minutes)**.  
 
-Default Validity
+### 6. Custom Shortcodes
+- User may provide a **custom shortcode** (alphanumeric, reasonable length).  
+- If invalid or already taken → return error.  
+- If not provided → service **generates automatically**.  
 
-If no validity is provided → default = 30 minutes.
+---
 
-Validity is always an integer representing minutes.
+## API Endpoints  
 
-Custom Shortcodes
+### 1. Create Short URL  
+- **Method**: `POST`  
+- **Route**: `/shorturls`  
 
-User can provide a shortcode (alphanumeric, reasonable length).
+#### Request Body:
+```json
+{
+  "url": "https://example.com/very/long/link",
+  "validity": 30,
+  "shortcode": "abcd1"
+}
 
-If invalid or already taken → reject with error.
+```
+#### Response
+<img width="1380" height="724" alt="Screenshot 2025-09-04 121148" src="https://github.com/user-attachments/assets/09a54b67-ecb6-4fa7-a0ef-244abca46dca" />
 
-If not provided → generate automatically.
+### 2. Retrieve Short URL Statistics
+- **Method**: `GET`  
+- **Route**: `/shorturls/:code`
 
-According to the problem statement
+#### Response
+<img width="1338" height="710" alt="Screenshot 2025-09-04 121207" src="https://github.com/user-attachments/assets/5a7b8187-f26c-445d-b6ae-4fa8e8ace5ad" />
 
-1. Create Short URL
 
-Method: POST
+### 3. Preview
+- **Method**: `GET`  
+- **Route**: `/shorturls/:code`
 
-Route: /shorturls
-
-Request body:
-
-<img width="1380" height="724" alt="Screenshot 2025-09-04 121148" src="https://github.com/user-attachments/assets/5feb30f1-faf9-49e1-ab36-e6b5b0226710" />
-2. Retrieve Short URL Statistics
-
-Method: GET
-
-Route: /shorturls/:code
-
-Response JSON must include:
-
-total clicks
-
-original URL
-
-creation date
-
-expiry date
-
-detailed click data:
-
-timestamp of click
-
-referrer (source)
-
-coarse-grained geographical location
-
-<img width="1338" height="710" alt="Screenshot 2025-09-04 121207" src="https://github.com/user-attachments/assets/0d04f4fc-bef8-4bee-a685-83ea44b007f0" />
-
-Redirection
-
-Method: GET
-
-Route: /:code
-
-<img width="1349" height="649" alt="Screenshot 2025-09-04 121252" src="https://github.com/user-attachments/assets/1b3772b1-ba28-4047-bce9-0402260000f7" />
-
+#### Response
+<img width="1349" height="649" alt="Screenshot 2025-09-04 121252" src="https://github.com/user-attachments/assets/36b2f33e-dffc-4dfd-8d2a-66bfdfb0ca15" />
 
